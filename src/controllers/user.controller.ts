@@ -1,6 +1,6 @@
 
 import { Request, Response, NextFunction } from "express";
-import { Controller } from "../decorators/controller.decoreator"
+import { Controller } from "../decorators/controller.decorator"
 import { Map } from "../decorators/request.decoreator"
 import UserService from "../services/user.service"
 
