@@ -4,6 +4,9 @@ import { Controller } from "../decorators/controller.decorator"
 import { Map } from "../decorators/request.decoreator"
 import UserService from "../services/user.service"
 import bcrypt from "bcrypt";
+import { validateMiddleware } from "../middlewares/user.middleware";
+
+
 @Controller("/user")
 class UserController {
     private userService: UserService;
@@ -11,7 +14,7 @@ class UserController {
         this.userService = new UserService();
     }
 
-    @Map("post", "/registeruser", [])
+    @Map("post", "/registeruser", [validateMiddleware])
     public async createUser(req: Request, res: Response, next: NextFunction) {
         try {
             const { firstName, lastName, userName, password, phoneNumber, email } = req.body;
