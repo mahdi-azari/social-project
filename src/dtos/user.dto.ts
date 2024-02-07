@@ -1,7 +1,6 @@
-import { IsString, IsEmail, IsNotEmpty, IsMobilePhone, MinLength, validate } from "class-validator";
+import { IsString, IsEmail, IsNotEmpty, IsMobilePhone, MinLength, validate, IsInt } from "class-validator";
 import { plainToClass } from "class-transformer";
 export class CreateUserDto {
-    @IsNotEmpty({ message: "First name should not be empty" })
+    @IsNotEmpty({ message: "نام را وارد کنید" })
     public firstName: string;
-
 }
