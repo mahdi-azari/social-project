@@ -1,5 +1,5 @@
-import { model, Schema, Document } from "mongoose";
-import { IUser } from "../interfaces/user.interface";
+import { model, Schema, Document, Types } from "mongoose";
+import { IUser, Role } from "../interfaces/user.interface";
 
 export type UserDocument = IUser & Document;
 
@@ -27,9 +27,16 @@ const userSchema: Schema = new Schema(
             type: String,
             required: true,
         },
-        phoneNumber: String,
+        phoneNumber: {
+            type: String,
+            required: true,
+        },
         birthDate: Date,
         verifiedEmail: {
+            type: Boolean,
+            default: false,
+        },
+        verifiedPhoneNumber: {
             type: Boolean,
             default: false,
         },
@@ -37,6 +44,20 @@ const userSchema: Schema = new Schema(
             type: Boolean,
             default: true,
         },
+        role: {
+            type: String,
+            enum: Role,
+            default: Role.User,
+
+        },
+        followers: {
+            type: Types.ObjectId,
+            ref: 'User',
+        },
+        following: {
+            type: Types.ObjectId,
+            ref: 'User',
+        }
     },
     {
         timestamps: true,
