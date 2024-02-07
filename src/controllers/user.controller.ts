@@ -5,6 +5,7 @@ import { Map } from "../decorators/request.decoreator"
 import UserService from "../services/user.service"
 import bcrypt from "bcrypt";
 import { validateMiddleware } from "../middlewares/user.middleware";
+import { IUser } from "../interfaces/user.interface";
 
 
 @Controller("/user")
@@ -18,9 +19,9 @@ class UserController {
     public async createUser(req: Request, res: Response, next: NextFunction) {
         try {
             const { firstName, lastName, userName, password, phoneNumber, email } = req.body;
-            const salt = bcrypt.genSaltSync(10);
-            const hash = bcrypt.hashSync(password, salt);
-            const user = await this.userService.createUser({
+            const salt: string = bcrypt.genSaltSync(10);
+            const hash: string = bcrypt.hashSync(password, salt);
+            const user: IUser = await this.userService.createUser({
                 firstName: firstName,
                 lastName: lastName,
                 userName: userName,
