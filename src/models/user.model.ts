@@ -48,16 +48,15 @@ const userSchema: Schema = new Schema(
             type: String,
             enum: Role,
             default: Role.User,
-
         },
         followers: {
             type: Types.ObjectId,
-            ref: 'User',
+            ref: "User",
         },
         following: {
             type: Types.ObjectId,
-            ref: 'User',
-        }
+            ref: "User",
+        },
     },
     {
         timestamps: true,

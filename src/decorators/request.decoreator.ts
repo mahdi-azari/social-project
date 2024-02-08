@@ -1,5 +1,9 @@
 export function Map(method: string, path: string, middleware: any) {
-    return function (target: any, propertyKey: string | symbol, descriptor: PropertyDescriptor) {
+    return function (
+        target: any,
+        propertyKey: string | symbol,
+        descriptor: PropertyDescriptor
+    ) {
         if (!Reflect.hasMetadata("routerPath", target)) {
             Reflect.defineMetadata("routerPath", [], target);
         }
@@ -8,9 +12,8 @@ export function Map(method: string, path: string, middleware: any) {
             method,
             path,
             propertyKey,
-            middleware
-        })
+            middleware,
+        });
         Reflect.defineMetadata("routerPath", routes, target);
-
-    }
+    };
 }

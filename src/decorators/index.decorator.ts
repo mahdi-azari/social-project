@@ -7,7 +7,6 @@ class Route implements IRoute {
     public ControllerClass: any;
     public controller: any;
 
-
     constructor(Controller: any) {
         this.ControllerClass = Controller;
         this.controller = new Controller();
@@ -26,9 +25,9 @@ class Route implements IRoute {
                 route.middleware,
                 (req: Request, res: Response, next: NextFunction) => {
                     this.controller[route.propertyKey](req, res, next);
-                })
+                }
+            );
         });
-
     }
 }
 
