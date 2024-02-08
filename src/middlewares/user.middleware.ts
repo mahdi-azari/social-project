@@ -21,7 +21,6 @@ export const validateMiddleware = async (
         }
         next();
     } catch (error) {
-        console.log(error);
-        return res.status(500).json({ error: "Internal Server Error" });
+        next(error);
     }
 };

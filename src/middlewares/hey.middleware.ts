@@ -5,6 +5,6 @@ export function hey(req: Request, res: Response, next: NextFunction) {
         console.log("middleware");
         next();
     } catch (error) {
-        console.log(error);
+        next(error);
     }
 }
