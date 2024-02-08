@@ -13,6 +13,7 @@ class App {
         this.dbConnection();
         this.setupMiddleware();
         this.setupRoutes(routes);
+        this.errorHandler();
     }
 
     public listen() {
@@ -36,6 +37,21 @@ class App {
         routes.forEach((route: any) => {
             this.app.use(route.basePath, route.router);
         });
+    }
+
+    private errorHandler() {
+        this.app.use(
+            (
+                err: Error,
+                req: Request,
+                res: Response,
+                next: NextFunction
+            ): void => {
+                res.send({
+                    message: err.message,
+                });
+            }
+        );
     }
 }
 
