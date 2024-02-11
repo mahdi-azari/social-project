@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import { Controller } from "../decorators/controller.decorator";
 import { Map } from "../decorators/request.decoreator";
 import UserService from "../services/user.service";
-import bcrypt from "bcrypt";
+import { hashPassword } from "../utils/hashPassword";
 import { createMiddleware } from "../middlewares/user.middleware";
 import { IUser } from "../interfaces/user.interface";
 import { hey } from "../middlewares/hey.middleware";
@@ -14,7 +14,7 @@ class UserController {
         this.userService = new UserService();
     }
 
-    @Map("post", "/registeruser", [createMiddleware , hey])
+    @Map("post", "/registeruser", [createMiddleware, hey])
     public async createUser(req: Request, res: Response, next: NextFunction) {
         try {
             const {
@@ -32,13 +32,12 @@ class UserController {
             ) {
                 throw new Error("Do not enter a number");
             }
-            const salt: string = bcrypt.genSaltSync(10);
-            const hash: string = bcrypt.hashSync(password, salt);
+            const hashPass: string = hashPassword(password);
             const user: IUser = await this.userService.createUser({
                 firstName: firstName,
                 lastName: lastName,
                 userName: userName,
-                password: hash,
+                password: hashPass,
                 phoneNumber: phoneNumber,
                 email: email,
             });
