@@ -3,8 +3,9 @@ import { Controller } from "../decorators/controller.decorator";
 import { Map } from "../decorators/request.decoreator";
 import UserService from "../services/user.service";
 import bcrypt from "bcrypt";
-import { validateMiddleware } from "../middlewares/user.middleware";
+import { createMiddleware } from "../middlewares/user.middleware";
 import { IUser } from "../interfaces/user.interface";
+import { hey } from "../middlewares/hey.middleware";
 
 @Controller("/user")
 class UserController {
@@ -13,7 +14,7 @@ class UserController {
         this.userService = new UserService();
     }
 
-    @Map("post", "/registeruser", [validateMiddleware])
+    @Map("post", "/registeruser", [createMiddleware , hey])
     public async createUser(req: Request, res: Response, next: NextFunction) {
         try {
             const {
@@ -29,7 +30,7 @@ class UserController {
                 !isNaN(Number(lastName)) ||
                 !isNaN(Number(userName))
             ) {
-                throw new Error("عدد وارد نکنید");
+                throw new Error("Do not enter a number");
             }
             const salt: string = bcrypt.genSaltSync(10);
             const hash: string = bcrypt.hashSync(password, salt);

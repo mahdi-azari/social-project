@@ -3,7 +3,7 @@ import { Request, Response, NextFunction } from "express";
 import { CreateUserDto } from "../dtos/user.dto";
 import { ValidationError, validate } from "class-validator";
 
-export const validateMiddleware = async (
+export const createMiddleware = async (
     req: Request,
     res: Response,
     next: NextFunction
