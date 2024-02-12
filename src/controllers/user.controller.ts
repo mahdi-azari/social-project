@@ -6,6 +6,7 @@ import { hashPassword } from "../utils/hashPassword";
 import { createMiddleware } from "../middlewares/user.middleware";
 import { IUser } from "../interfaces/user.interface";
 import { hey } from "../middlewares/hey.middleware";
+import { validateUserInput } from "../utils/validateUserInput";
 
 @Controller("/user")
 class UserController {
@@ -25,13 +26,7 @@ class UserController {
                 phoneNumber,
                 email,
             } = req.body;
-            if (
-                !isNaN(Number(firstName)) ||
-                !isNaN(Number(lastName)) ||
-                !isNaN(Number(userName))
-            ) {
-                throw new Error("Do not enter a number");
-            }
+            validateUserInput(req.body);
             const hashPass: string = hashPassword(password);
             const user: IUser = await this.userService.createUser({
                 firstName: firstName,
@@ -46,6 +41,9 @@ class UserController {
             next(error);
         }
     }
+
+    @Map("post", "/edituser", [])
+    public async updateUser(req: Request, res: Response, next: NextFunction) {}
 }
 
 export default UserController;
