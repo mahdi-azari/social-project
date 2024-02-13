@@ -3,7 +3,10 @@ import { Controller } from "../decorators/controller.decorator";
 import { Map } from "../decorators/request.decoreator";
 import UserService from "../services/user.service";
 import { hashPassword } from "../utils/hashPassword";
-import { createMiddleware } from "../middlewares/user.middleware";
+import {
+    createMiddleware,
+    updateMiddleware,
+} from "../middlewares/user.middleware";
 import { IUser } from "../interfaces/user.interface";
 import { hey } from "../middlewares/hey.middleware";
 import { validateUserInput } from "../utils/validateUserInput";
@@ -13,6 +16,16 @@ class UserController {
     private userService: UserService;
     constructor() {
         this.userService = new UserService();
+    }
+
+    @Map("get", "/", [])
+    public async getUser(req: Request, res: Response, next: NextFunction) {
+        try {
+            const user = await this.userService.getUser();
+            res.send(user);
+        } catch (error) {
+            next(error);
+        }
     }
 
     @Map("post", "/registeruser", [createMiddleware, hey])
@@ -29,12 +42,12 @@ class UserController {
             validateUserInput(req.body);
             const hashPass: string = hashPassword(password);
             const user: IUser = await this.userService.createUser({
-                firstName: firstName,
-                lastName: lastName,
-                userName: userName,
-                password: hashPass,
+                firstName,
+                lastName,
+                userName,
+                password,
                 phoneNumber: phoneNumber,
-                email: email,
+                email,
             });
             return res.status(201).json(user);
         } catch (error) {
@@ -42,8 +55,47 @@ class UserController {
         }
     }
 
-    @Map("post", "/edituser", [])
-    public async updateUser(req: Request, res: Response, next: NextFunction) {}
+    @Map("post", "/:id", [updateMiddleware])
+    public async updateUser(req: Request, res: Response, next: NextFunction) {
+        try {
+            const { id } = req.params;
+            let {
+                firstName,
+                lastName,
+                userName,
+                password,
+                phoneNumber,
+                email,
+            } = req.body;
+            validateUserInput(req.body);
+            if (password) {
+                const hashPass: string = hashPassword(password);
+                password = hashPass;
+            }
+            await this.userService.updateUser(id, {
+                firstName,
+                lastName,
+                userName,
+                password,
+                phoneNumber,
+                email,
+            });
+            res.send("Update shod");
+        } catch (error) {
+            next(error);
+        }
+    }
+
+    @Map("post", "/deleteuser/:id", [])
+    public async deleteUser(req: Request, res: Response, next: NextFunction) {
+        try {
+            const { id } = req.params;
+            await this.userService.deleteUser(id);
+            res.send("User Delete");
+        } catch (error) {
+            next(error);
+        }
+    }
 }
 
 export default UserController;
