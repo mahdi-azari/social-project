@@ -1,0 +1,41 @@
+### Show all user
+GET http://localhost:3004/user
+
+
+### Show user by id
+GET http://localhost:3004/user/65cb9a64a71bb50edcac1d49
+
+### Create user
+POST http://localhost:3004/user/registeruser
+Content-Type: application/json
+
+{
+    "userName" : "mahdiazari",
+    "firstName" : "Mahdi",
+    "lastName" : "azari",
+    "password" : "123456",
+    "email" : "mahdi@gmail.com",
+    "phoneNumber" : "09120538773"
+}
+
+### Delete user
+POST http://localhost:3004/user/deleteuser/65cb9d5c4cfa6f61d485158b
+
+
+###Login user
+POST http://localhost:3004/user/login
+Content-Type: application/json
+
+{
+    "userName" : "mahdiazari",
+    "password" : "123456"
+}
+
+
+### Update user
+POST http://localhost:3004/user/65cb9d5c4cfa6f61d485158b
+Content-Type: application/json
+
+{
+     "firstName" : "Mahdii"
+}

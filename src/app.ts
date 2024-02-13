@@ -1,9 +1,10 @@
 import "reflect-metadata";
+import dotenv from "dotenv";
+dotenv.config({path : `./.env`});
 import { Application, Router, Request, Response, NextFunction } from "express";
 import express from "express";
 import { connect } from "mongoose";
-import dotenv from "dotenv";
-dotenv.config();
+
 class App {
     private app: Application;
     public port: number | string;

@@ -28,6 +28,27 @@ class UserController {
         }
     }
 
+    @Map("post", "/login", [])
+    public async userLogin(req: Request, res: Response, next: NextFunction) {
+        try {
+            const userToken = await this.userService.userLogin(req.body);
+            res.send(userToken)
+        } catch (error) {
+            next(error);
+        }
+    }
+
+    @Map("get", "/:id", [])
+    public async getUserById(req: Request, res: Response, next: NextFunction) {
+        try {
+            const { id } = req.params;
+            const user = await this.userService.getUserById(id);
+            res.send(user);
+        } catch (error) {
+            next(error);
+        }
+    }
+
     @Map("post", "/registeruser", [createMiddleware, hey])
     public async createUser(req: Request, res: Response, next: NextFunction) {
         try {
@@ -45,7 +66,7 @@ class UserController {
                 firstName,
                 lastName,
                 userName,
-                password,
+                password: hashPass,
                 phoneNumber: phoneNumber,
                 email,
             });
