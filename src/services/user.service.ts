@@ -34,7 +34,7 @@ class UserService {
     public async userLogin(body: LoginRequestBody) {
         const { username, password } = body;
         const user: any = await this.UserModel.findOne({ username: username });
-        
+
         if (!user) throw new Error("INVALID USERNAME OR PASSWORD");
 
         const validPassword = bcrypt.compareSync(password, user.password);
@@ -43,10 +43,33 @@ class UserService {
         }
 
         const token = jwt.sign(
-            { id: user._id, username: user.username, role: user.role },
+            { id: user._id, username: user.userName, role: user.role },
             process.env.KEYJWT as Secret
         );
         return token;
+    }
+
+    public async follow(body: any, params: any) {
+        const { userId } = body;
+        const { id } = params;
+
+        const fUser = await this.UserModel.findById(userId);
+
+        if (!fUser) throw new Error("User Nist");
+
+        await this.UserModel.updateOne(
+            { _id: userId },
+            { $addToSet: { followers: id } }
+        );
+
+        const tUser = await this.UserModel.findById(userId);
+        if (!tUser) throw new Error("User Nist");
+
+        await this.UserModel.updateOne(
+            { _id: id },
+            { $addToSet: { following: userId } }
+        );
+        return;
     }
 }
 

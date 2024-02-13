@@ -10,16 +10,16 @@ POST http://localhost:3004/user/registeruser
 Content-Type: application/json
 
 {
-    "userName" : "mahdiazari",
-    "firstName" : "Mahdi",
-    "lastName" : "azari",
-    "password" : "123456",
-    "email" : "mahdi@gmail.com",
-    "phoneNumber" : "09120538773"
+    "userName" : "kikyff",
+    "firstName" : "dfffsehfd",
+    "lastName" : "hffgeehg",
+    "password" : "123459",
+    "email" : "hgeffehg@gmail.com",
+    "phoneNumber" : "03428099773"
 }
 
 ### Delete user
-POST http://localhost:3004/user/deleteuser/65cb9d5c4cfa6f61d485158b
+POST http://localhost:3004/user/deleteuser/65cbf72b7d507d017f828996
 
 
 ###Login user
@@ -38,4 +38,12 @@ Content-Type: application/json
 
 {
      "firstName" : "Mahdii"
+}
+
+### Follow
+POST http://localhost:3004/user/follow/65cbf70f7d507d017f828992
+Content-Type: application/json
+
+{
+    "userId" : "65cbf7367d507d017f828998"
 }

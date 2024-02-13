@@ -49,14 +49,18 @@ const userSchema: Schema = new Schema(
             enum: Role,
             default: Role.User,
         },
-        followers: {
-            type: Types.ObjectId,
-            ref: "User",
-        },
-        following: {
-            type: Types.ObjectId,
-            ref: "User",
-        },
+        followers: [
+            {
+                type: Types.ObjectId,
+                ref: "User",
+            },
+        ],
+        following: [
+            {
+                type: Types.ObjectId,
+                ref: "User",
+            },
+        ],
     },
     {
         timestamps: true,

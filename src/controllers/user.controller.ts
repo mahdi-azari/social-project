@@ -28,11 +28,21 @@ class UserController {
         }
     }
 
+    @Map("post", "/follow/:id", [])
+    public async follow(req: Request, res: Response, next: NextFunction) {
+        try {
+            await this.userService.follow(req.body, req.params);
+            res.send("ok");
+        } catch (error) {
+            next(error);
+        }
+    }
+
     @Map("post", "/login", [])
     public async userLogin(req: Request, res: Response, next: NextFunction) {
         try {
             const userToken = await this.userService.userLogin(req.body);
-            res.send(userToken)
+            res.send(userToken);
         } catch (error) {
             next(error);
         }
